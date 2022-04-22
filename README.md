@@ -91,12 +91,18 @@ For those who **can not compile the CUDA extensions successfully**, please set `
 
 # Models
 
-pre-train model
+We are now accepting applications for access to the pre-train models for research purposes. Applications should be made by signing the following License Agreement:
 
-| model                                                        | path                                   |
-| ------------------------------------------------------------ | -------------------------------------- |
-| [Final HairMapper](https://drive.google.com/file/d/1F3oujXbvalqEOixcAkIyURuY512nmroe/view?usp=sharing) (can be applied to female and male) | mapper/checkpoints/final/best_model.pt |
-| [Man HairMapper](https://drive.google.com/file/d/1dSrypVSbygM5Z3lupvoV56PpYUtHPbns/view?usp=sharing) (can only be applied to male) | mapper/checkpoints/man/best_model.pt   |
+
+
+Please include the following in the application: your email, Affiliation, personal academic webpage (Optional).
+
+Then put the pre-train models to :
+
+| model                                                | path                                   |
+| ---------------------------------------------------- | -------------------------------------- |
+| Final HairMapper (can be applied to female and male) | mapper/checkpoints/final/best_model.pt |
+| Man HairMapper (can only be applied to male)         | mapper/checkpoints/man/best_model.pt   |
 
 
 
