@@ -1,0 +1,11 @@
+python projector.py --network=F:\remove_hair\source\styleGAN2_ada_model\pretrain\StyleGAN2-ada-Generator.pth --target=F:\DoubleChin\datasets\ffhq_data\remove_hair\real_image\origin\data.txt --outdir=F:\DoubleChin\datasets\ffhq_data\remove_hair\real_image\
+
+
+python legacy.py  --source=F:\Uncategorized_samples\stylegan3\models/stylegan2-ffhq-1024x1024.pkl --dest=F:\remove_hair\source\styleGAN2_ada_model/pretrain/stylegan2-ffhq-1024x1024.pkl
+
+
+
+python projector_w.py --network=F:\remove_hair\source\styleGAN2_ada_model\pretrain\StyleGAN2-ada-Generator.pth --target=F:\DoubleChin\datasets\ffhq_data\remove_hair\real_image\origin\data.txt --outdir=F:\DoubleChin\datasets\ffhq_data\remove_hair\real_image\
+python projector_z.py --network=F:\remove_hair\source\styleGAN2_ada_model\pretrain\StyleGAN2-ada-Generator.pth --outdir=F:\DoubleChin\datasets\ffhq_data\remove_hair\author\
+python projector_wp2.py --network=F:\remove_hair\source\styleGAN2_ada_model\pretrain\StyleGAN2-ada-Generator.pth --target=F:\DoubleChin\datasets\ffhq_data\remove_hair\real_image\origin\data.txt --outdir=F:\DoubleChin\datasets\ffhq_data\remove_hair\real_image\
+python projector_wp.py --network=F:\remove_hair\source\styleGAN2_ada_model\pretrain\StyleGAN2-ada-Generator.pth --outdir=F:\DoubleChin\datasets\ffhq_data\remove_hair\real_bald\code2
