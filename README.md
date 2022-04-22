@@ -91,11 +91,11 @@ For those who **can not compile the CUDA extensions successfully**, please set `
 
 # Models
 
-We are now accepting applications for access to the pre-train models for research purposes. Applications should be made by signing the following License Agreement:
+We are now accepting applications for access to the pre-trained models for research purposes. Applications should be made by filling out the google form:
 
 
 
-Please include the following in the application: your email, Affiliation, personal academic webpage (Optional).
+
 
 Then put the pre-train models to :
 
@@ -160,7 +160,7 @@ Datasets will be saved to `./training_runs/dataset/D0` and `./training_runs/data
 
 There should be enough bald-data in D0 to train a hair separation boundary, but a randomly sampled dataset consists of 10000-images may only contains 100 bald-images. So that **We recommend you to directly use our pre-trained male hair separation boundary in `./data/boundaries/stylegan2_ada/coarse/stylegan2_ffhq_hair_w_male` and gender separation boundary in `./data/boundaries/stylegan2_ada/coarse/stylegan2_ffhq_gender_styleflow`**. 
 
-Or you can train male hair separation boundary on D_0 for yourself.
+Or you can train male hair separation boundary on D_0 for yourself. (not recommended)
 
 ```python
 python step2_train_man_hair_coarse_boundary.py  --output_dir $HairBoundaryDir$  --dataset_path ./training_runs/dataset/D0

@@ -277,7 +277,6 @@ class Trainer:
         return optimizer
 
     def configure_datasets(self):
-        # TODO
         train_dataset = LatentsDataset(data_dir=self.data_dir,mode='train')
         val_dataset = LatentsDataset(data_dir=self.data_dir,mode='train')
         test_dataset = LatentsTestDataset(data_dir=self.data_dir)
