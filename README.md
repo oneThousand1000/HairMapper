@@ -229,7 +229,7 @@ Training data list will be saved to `./training_runs/male_mapper/data`
 Train male mapper:
 
 ```python
-python train_mapper.py --mapper_name male_mapper
+python train_mapper.py --mapper_name male_mapper --max_steps 52000
 ```
 
 
@@ -277,7 +277,7 @@ Training data list will be saved to `./training_runs/final_mapper/data`
 Train final mapper:
 
 ```python
-python train_mapper.py --mapper_name final_mapper
+python train_mapper.py --mapper_name final_mapper --max_steps 26000
 ```
 
 
