@@ -351,7 +351,7 @@ def parse_args():
     parser.add_argument('--mapper_name', type=str, required=True,
                         help='model name (required)')
 
-    parser.add_argument('--max_steps', type=int, default=50000,
+    parser.add_argument('--max_steps', type=int, default=100000,
                         help='max steps.')
 
     parser.add_argument('--learning_rate', type=float, default=0.005,

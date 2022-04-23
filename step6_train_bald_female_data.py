@@ -150,6 +150,8 @@ def main():
         mapper_input_tensor = torch.from_numpy(mapper_input).cuda().float()
         res = mapper(mapper_input_tensor)
         bald_male_code_wp = male_code_wp
+
+        # beta = 0.7 in Eq.(14)
         bald_male_code_wp[:, :8, :] += 0.7 * res.to('cpu').detach().numpy()
         outputs = model.easy_style_mixing(latent_codes=bald_male_code_wp,
                                           style_range=range(7, 18),
