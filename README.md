@@ -16,7 +16,7 @@ Removing hair from portrait images is challenging due to the complex occlusions 
 
 ## License
 
-
+**You can use, redistribute, and adapt this software for NON-COMMERCIAL purposes only**.
 
 ## Requirements
 
@@ -55,7 +55,7 @@ Removing hair from portrait images is challenging due to the complex occlusions 
    activate HairMapper
    ```
 
-3. [StyleGAN2-ada requirements](https://github.com/NVlabs/stylegan2-ada-pytorch): The code relies heavily on custom PyTorch extensions that are compiled on the fly using NVCC. On Windows, the compilation requires Microsoft Visual Studio. We recommend installing [Visual Studio Community Edition](https://visualstudio.microsoft.com/vs/) and adding it into `PATH` using `"C:\Program Files (x86)\Microsoft Visual Studio\<VERSION>\Community\VC\Auxiliary\Build\vcvars64.bat"`.
+3. [**StyleGAN2-ada requirements**](https://github.com/NVlabs/stylegan2-ada-pytorch): The code relies heavily on custom PyTorch extensions that are compiled on the fly using NVCC. On Windows, the compilation requires Microsoft Visual Studio. We recommend installing [Visual Studio Community Edition](https://visualstudio.microsoft.com/vs/) and adding it into `PATH` using `"C:\Program Files (x86)\Microsoft Visual Studio\<VERSION>\Community\VC\Auxiliary\Build\vcvars64.bat"`.
 
    Please modify `compiler path` in `./styleGAN2_ada_model/stylegan2_ada/torch_utils/custom_ops.py` according to your own Microsoft Visual Studio installation path (default: `C:\Program Files (x86)\Microsoft Visual Studio`).
    
@@ -91,13 +91,11 @@ For those who **can not compile the CUDA extensions successfully**, please set `
 
 # Models
 
-We are now accepting applications for access to the pre-trained models for research purposes. Applications should be made by filling out the google form:
+Please fill out this form for pre-trained models access:
 
+https://forms.gle/a5pRbE3yxEr7sZDm7
 
-
-
-
-Then put the pre-train models to :
+Then download and put the pre-train models to :
 
 | model                                                | path                                   |
 | ---------------------------------------------------- | -------------------------------------- |
@@ -138,9 +136,11 @@ python main_mapper.py  --data_dir ./test_data --diffuse
 
 
 
+**Considering that our method involves several optimizations and several network trainings, we provide a step-by-step training procedure.**
+
 # Training
 
-## Data Preparation
+## Data Preparation (Sec 3.2)
 
 Generate D_0 dataset:
 
@@ -156,7 +156,7 @@ python step1_generate_data.py --dataset_name Dnoise --num DatasetSize --add_nois
 
 Datasets will be saved to `./training_runs/dataset/D0` and `./training_runs/dataset/Dnoise`.
 
-## Boundary Training
+## Boundary Training (Sec 3.3)
 
 There should be enough bald-data in D0 to train a hair separation boundary, but a randomly sampled dataset consists of 10000-images may only contains 100 bald-images. So that **We recommend you to directly use our pre-trained male hair separation boundary in `./data/boundaries/stylegan2_ada/coarse/stylegan2_ffhq_hair_w_male` and gender separation boundary in `./data/boundaries/stylegan2_ada/coarse/stylegan2_ffhq_gender_styleflow`**. 
 
@@ -174,7 +174,7 @@ python step2_train_gender_boundary.py --output_dir $GenderBoundaryDir$ --dataset
 
 
 
-## Male Hair Removal
+## Male Hair Removal (Sec 3.4)
 
 ![Male_Hair_Removal](./imgs/Male_Hair_Removal.PNG)
 
@@ -208,7 +208,7 @@ Results will be saved to `./training_runs/male_training/Dnoise`
 
 
 
-## Male Mapper Training
+## Male Mapper Training (Sec 3.5)
 
 ![Male_Mapper_Training](./imgs/Male_Mapper_Training.PNG)
 
@@ -228,7 +228,7 @@ python train_mapper.py --mapper_name male_mapper
 
 
 
-## Female Hair Removal
+## Female Hair Removal (Sec 3.6)
 
 ![Female_Hair_Removal](./imgs/Female_Hair_Removal.PNG)
 
@@ -255,7 +255,7 @@ python step6_train_bald_female_data.py  --dataset_name Dnoise  --mapper_ckpt_pat
 
 
 
-## Final Mapper Training
+## Final Mapper Training (Sec 3.6)
 
 ![Final_Mapper_Training](./imgs/Final_Mapper_Training.PNG)
 
@@ -272,12 +272,6 @@ Train final mapper:
 ```python
 python train_mapper.py --mapper_name final_mapper
 ```
-
-
-
-## TODO
-
-We will release the training data (latent codes and face masks) in the future.
 
 
 

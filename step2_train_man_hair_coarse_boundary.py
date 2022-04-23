@@ -16,15 +16,14 @@ from interface.utils.logger import setup_logger
 from interface.utils.manipulator import train_boundary
 
 
-
 def parse_args():
     """Parses arguments."""
     parser = argparse.ArgumentParser(
         description='Train semantic boundary with given latent codes and '
                     'attribute scores.')
-    parser.add_argument('-o', '--output_dir', type=str,required=True,
+    parser.add_argument('-o', '--output_dir', type=str, required=True,
                         help='Directory to save the output results. (required)')
-    parser.add_argument('-c', '--dataset_path', type=str,required=True,
+    parser.add_argument('-c', '--dataset_path', type=str, required=True,
                         help='Path to the dataset. (required)')
     parser.add_argument('-r', '--split_ratio', type=float, default=0.98,
                         help='Ratio with which to split training and validation '
@@ -35,16 +34,17 @@ def parse_args():
 
     return parser.parse_args()
 
+
 def main():
     args = parse_args()
     logger = setup_logger(args.output_dir, logger_name='boundary training')
 
     print("Loading latent code...")
-    latent_codes_path = os.path.join(args.dataset_path,'w.npy')
+    latent_codes_path = os.path.join(args.dataset_path, 'w.npy')
     latent_codes_all = np.load(latent_codes_path)
     latent_codes_shape = latent_codes_all.shape
     if not (len(latent_codes_shape) == 2 and
-            latent_codes_shape[1] ==512):
+            latent_codes_shape[1] == 512):
         raise ValueError(f'Latent_codes should be in W latent space!')
 
     print("Loading hair and gender scores...")
@@ -55,12 +55,12 @@ def main():
 
     print("Selecting male data...")
     man_index = np.where(gender_scores == 1)[0]
-    latent_codes_all = latent_codes_all[man_index,  :]
+    latent_codes_all = latent_codes_all[man_index, :]
     hair_scores = hair_scores[man_index]
     latent_codes_shape = latent_codes_all.shape
 
     print("latent_space_dim:", latent_codes_shape)
-    chosen_num_or_ratio = (latent_codes_shape[0]-np.sum(hair_scores) )/latent_codes_shape[0]*0.9/2
+    chosen_num_or_ratio = (latent_codes_shape[0] - np.sum(hair_scores)) / latent_codes_shape[0] * 0.9 / 2
     boundary, intercepts = train_boundary(latent_codes=latent_codes_all,
                                           scores=hair_scores,
                                           chosen_num_or_ratio=chosen_num_or_ratio,
@@ -71,7 +71,6 @@ def main():
     print(boundary.shape)
     np.save(os.path.join(args.output_dir, 'boundary.npy'), boundary)
     np.save(os.path.join(args.output_dir, 'intercepts.npy'), intercepts)
-
 
 
 if __name__ == '__main__':

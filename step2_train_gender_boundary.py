@@ -16,17 +16,16 @@ from interface.utils.logger import setup_logger
 from interface.utils.manipulator import train_boundary
 
 
-
 def parse_args():
     """Parses arguments."""
     parser = argparse.ArgumentParser(
         description='Train semantic boundary with given latent codes and '
                     'attribute scores.')
-    parser.add_argument( '--output_dir', type=str,required=True,
-                        help='Directory to save the output results. (required)')
-    parser.add_argument( '--dataset_path', type=str,required=True,
+    parser.add_argument('--output_dir', type=str, required=True,
+                        help='Directory to save the output results. ')
+    parser.add_argument('--dataset_path', type=str, required=True,
                         help='Path to the dataset. (required)')
-    parser.add_argument( '--split_ratio', type=float, default=0.98,
+    parser.add_argument('--split_ratio', type=float, default=0.98,
                         help='Ratio with which to split training and validation '
                              'sets. (default: 0.7)')
     parser.add_argument('--chosen_num_or_ratio', type=float, default=0.48,
@@ -38,16 +37,17 @@ def parse_args():
 
     return parser.parse_args()
 
+
 def main():
     args = parse_args()
     logger = setup_logger(args.output_dir, logger_name='boundary training')
 
     print("Loading latent code...")
-    latent_codes_path = os.path.join(args.dataset_path,'latent_codes.npy')
+    latent_codes_path = os.path.join(args.dataset_path, 'latent_codes.npy')
     latent_codes_all = np.load(latent_codes_path)
     latent_codes_shape = latent_codes_all.shape
     if not (len(latent_codes_shape) == 2 and
-            latent_codes_shape[1] ==512):
+            latent_codes_shape[1] == 512):
         raise ValueError(f'Latent_codes should be in W latent space!')
 
     print("Loading hair and gender scores...")
@@ -66,7 +66,6 @@ def main():
     print(boundary.shape)
     np.save(os.path.join(args.output_dir, 'boundary.npy'), boundary)
     np.save(os.path.join(args.output_dir, 'intercepts.npy'), intercepts)
-
 
 
 if __name__ == '__main__':

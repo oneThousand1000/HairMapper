@@ -11,7 +11,7 @@ import numpy as np
 from tqdm import tqdm
 
 from styleGAN2_ada_model.stylegan2_ada_generator import StyleGAN2adaGenerator
-from classifier.classify import get_model, check_hair,check_gender
+from classifier.classify import get_model, check_hair, check_gender
 
 
 def parse_args():
@@ -148,8 +148,10 @@ def main():
     gender_scores_array = np.array(gender_scores)[:, np.newaxis]
     np.save(score_save_path, gender_scores_array)
 
-    print(f'============= {np.sum(hair_scores_array)} images with hair, {args.num-np.sum(hair_scores_array)} images without hair =============')
-    print(f'============= {np.sum(gender_scores_array)} male images, {args.num - np.sum(gender_scores_array)} female images =============')
+    print(
+        f'============= {np.sum(hair_scores_array)} images with hair, {args.num - np.sum(hair_scores_array)} images without hair =============')
+    print(
+        f'============= {np.sum(gender_scores_array)} male images, {args.num - np.sum(gender_scores_array)} female images =============')
     print(f'============= Done =============')
 
 

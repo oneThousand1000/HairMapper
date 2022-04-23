@@ -2,16 +2,19 @@ import os
 import torch
 from torch import nn
 import sys
+
 sys.path.append('..')
 sys.path.append('../styleGAN2_ada_model/stylegan2_ada')
 from mapper.networks.level_mapper import LevelMapper
-from mapper.dataset import LatentsDataset,LatentsTestDataset
+from mapper.dataset import LatentsDataset, LatentsTestDataset
 from torch.utils.data import DataLoader
 from styleGAN2_ada_model.stylegan2_ada_generator import StyleGAN2adaGenerator
 import torchvision
 from torch.utils.tensorboard import SummaryWriter
 import mapper.id_loss as id_loss
 import argparse
+
+
 def aggregate_loss_dict(agg_loss_dict):
     mean_vals = {}
     for output in agg_loss_dict:
@@ -25,10 +28,11 @@ def aggregate_loss_dict(agg_loss_dict):
             mean_vals[key] = 0
     return mean_vals
 
-class Trainer:
-    def __init__(self,args):
 
-        self.data_dir  = f'./training_runs/{args.mapper_name}/data'
+class Trainer:
+    def __init__(self, args):
+
+        self.data_dir = f'./training_runs/{args.mapper_name}/data'
 
         self.output_dir = f'./training_runs/{args.mapper_name}'
         os.makedirs(self.output_dir, exist_ok=True)
@@ -40,7 +44,6 @@ class Trainer:
         print(f'============= Loading training data from {self.data_dir} =============')
         print(f'============= Save logs to {self.log_dir}, save ckpts to {self.checkpoint_dir} =============')
 
-
         self.best_val_loss = None
         self.max_steps = args.max_steps
         self.save_interval = args.save_interval
@@ -51,20 +54,19 @@ class Trainer:
         self.test_batch_size = 1
         self.learning_rate = args.learning_rate
 
-        self.alpha=args.alpha
-        self.input_dim=args.input_dim
+        self.alpha = args.alpha
+        self.input_dim = args.input_dim
 
         self.device = 'cuda:0'
 
-        self.test_index=0
+        self.test_index = 0
         self.global_step = 0
 
         self.mapper = LevelMapper(input_dim=self.input_dim).to(self.device)
         self.truncation_psi = args.truncation_psi
         self.Generator = StyleGAN2adaGenerator('stylegan2_ada', None, truncation_psi=self.truncation_psi)
 
-
-        if args.resume !='':
+        if args.resume != '':
             self.load_weights(args.resume)
 
         self.latent_l2_loss = nn.MSELoss().to(self.device).eval()
@@ -87,19 +89,16 @@ class Trainer:
                                            num_workers=0,
                                            drop_last=True)
         self.val_dataloader = DataLoader(self.val_dataset,
-                                          batch_size=self.test_batch_size,
-                                          shuffle=False,
-                                          num_workers=0,
-                                          drop_last=True)
-
-        self.test_dataloader = DataLoader(self.test_dataset,
                                          batch_size=self.test_batch_size,
                                          shuffle=False,
                                          num_workers=0,
                                          drop_last=True)
 
-
-
+        self.test_dataloader = DataLoader(self.test_dataset,
+                                          batch_size=self.test_batch_size,
+                                          shuffle=False,
+                                          num_workers=0,
+                                          drop_last=True)
 
     def train(self):
         self.mapper.train()
@@ -107,12 +106,12 @@ class Trainer:
             for batch_idx, batch in enumerate(self.train_dataloader):
                 self.optimizer.zero_grad()
 
-                origin_wp, res_wp,mask = batch
+                origin_wp, res_wp, mask = batch
 
                 origin_wp = origin_wp.to(self.device)
 
                 res_wp = res_wp.to(self.device)
-                mask=mask.to(self.device)
+                mask = mask.to(self.device)
                 with torch.no_grad():
                     res_x, _ = self.Generator.model(
                         z=res_wp,
@@ -128,9 +127,8 @@ class Trainer:
                         input_latent_space_type='wp')
                 mapper_input = torch.clone(origin_wp)
 
-                w_hat =  origin_wp
-                w_hat[:,:8,:]+=self.mapper(mapper_input)*self.alpha
-
+                w_hat = origin_wp
+                w_hat[:, :8, :] += self.mapper(mapper_input) * self.alpha
 
                 x_hat, _ = self.Generator.model(
                     z=w_hat,
@@ -139,10 +137,8 @@ class Trainer:
                     truncation_cutoff=None,
                     input_latent_space_type='wp')
 
-                loss, loss_dict = self.calc_loss(res_w=res_wp, res_x=res_x, w_hat=w_hat, x_hat=x_hat,origin_img=origin_img,mask=mask)
-
-
-
+                loss, loss_dict = self.calc_loss(res_w=res_wp, res_x=res_x, w_hat=w_hat, x_hat=x_hat,
+                                                 origin_img=origin_img, mask=mask)
 
                 loss.backward()
                 self.optimizer.step()
@@ -150,7 +146,7 @@ class Trainer:
                 # Logging related
                 if self.global_step % self.image_interval == 0 or (
                         self.global_step < 1000 and self.global_step % 1000 == 0):
-                    self.parse_and_log_images(res_x, x_hat,origin_img, title='images_train')
+                    self.parse_and_log_images(res_x, x_hat, origin_img, title='images_train')
                 if self.global_step % self.board_interval == 0:
                     self.print_metrics(loss_dict, prefix='train')
                     self.log_metrics(loss_dict, prefix='train')
@@ -183,7 +179,7 @@ class Trainer:
             if batch_idx > 10:
                 break
 
-            origin_wp, res_wp,mask = batch
+            origin_wp, res_wp, mask = batch
             origin_wp = origin_wp.to(self.device).float()
 
             res_wp = res_wp.to(self.device).float()
@@ -205,19 +201,20 @@ class Trainer:
 
                 mapper_input = torch.clone(origin_wp)
                 w_hat = origin_wp
-                w_hat[:, :8, :] += self.mapper(mapper_input) * self.alpha*1.2
+                w_hat[:, :8, :] += self.mapper(mapper_input) * self.alpha * 1.2
                 x_hat, _ = self.Generator.model(
                     z=w_hat,
                     c=self.Generator.model.c_dim,
                     truncation_psi=self.truncation_psi,
                     truncation_cutoff=None,
                     input_latent_space_type='wp')
-                loss, cur_loss_dict = self.calc_loss(res_w=res_wp, res_x=res_x, w_hat=w_hat, x_hat=x_hat,origin_img=origin_img,mask=mask)
+                loss, cur_loss_dict = self.calc_loss(res_w=res_wp, res_x=res_x, w_hat=w_hat, x_hat=x_hat,
+                                                     origin_img=origin_img, mask=mask)
 
             agg_loss_dict.append(cur_loss_dict)
 
             # Logging related
-            self.parse_and_log_images(res_x, x_hat,origin_img, title='images_val', index=batch_idx)
+            self.parse_and_log_images(res_x, x_hat, origin_img, title='images_val', index=batch_idx)
 
             # For first step just do sanity test on small amount of data
             if self.global_step == 0 and batch_idx >= 4:
@@ -226,14 +223,14 @@ class Trainer:
         loss_dict = aggregate_loss_dict(agg_loss_dict)
         self.log_metrics(loss_dict, prefix='test')
         self.print_metrics(loss_dict, prefix='test')
-        count=0
+        count = 0
         for batch_idx, batch in enumerate(self.test_dataloader):
-            if batch_idx<self.test_index:
+            if batch_idx < self.test_index:
                 continue
 
             if count > 10:
                 break
-            origin_wp, mask,origin_img = batch
+            origin_wp, mask, origin_img = batch
             origin_wp = origin_wp.to(self.device).float()
 
             mask = mask.to(self.device).float()
@@ -241,7 +238,7 @@ class Trainer:
             with torch.no_grad():
                 mapper_input = torch.clone(origin_wp)
                 w_hat = origin_wp
-                w_hat[:, :8, :] += self.mapper(mapper_input) * self.alpha*1.2
+                w_hat[:, :8, :] += self.mapper(mapper_input) * self.alpha * 1.2
                 x_hat, _ = self.Generator.model(
                     z=w_hat,
                     c=self.Generator.model.c_dim,
@@ -249,12 +246,12 @@ class Trainer:
                     truncation_cutoff=None,
                     input_latent_space_type='wp')
             # Logging related
-            res=origin_img* mask+x_hat*(1-mask)
-            self.parse_and_log_images( x_hat, res,origin_img, title='images_test', index=batch_idx)
-            count+=1
-            self.test_index+=1
-            if self.test_index>=len(self.test_dataset):
-                self.test_index=0
+            res = origin_img * mask + x_hat * (1 - mask)
+            self.parse_and_log_images(x_hat, res, origin_img, title='images_test', index=batch_idx)
+            count += 1
+            self.test_index += 1
+            if self.test_index >= len(self.test_dataset):
+                self.test_index = 0
 
         self.mapper.train()
         return loss_dict
@@ -277,15 +274,15 @@ class Trainer:
         return optimizer
 
     def configure_datasets(self):
-        train_dataset = LatentsDataset(data_dir=self.data_dir,mode='train')
-        val_dataset = LatentsDataset(data_dir=self.data_dir,mode='train')
+        train_dataset = LatentsDataset(data_dir=self.data_dir, mode='train')
+        val_dataset = LatentsDataset(data_dir=self.data_dir, mode='train')
         test_dataset = LatentsTestDataset(data_dir=self.data_dir)
         print("Number of training samples: {}".format(len(train_dataset)))
         print("Number of val samples: {}".format(len(val_dataset)))
         print("Number of test samples: {}".format(len(test_dataset)))
-        return train_dataset, val_dataset,test_dataset
+        return train_dataset, val_dataset, test_dataset
 
-    def calc_loss(self, res_w, res_x, w_hat, x_hat,origin_img,mask):
+    def calc_loss(self, res_w, res_x, w_hat, x_hat, origin_img, mask):
         loss_dict = {}
         loss = 0.0
 
@@ -297,11 +294,11 @@ class Trainer:
         loss_dict['loss_l2_res_img'] = float(loss_l2_img)
         loss += loss_l2_img * self.img_l2_lambda_res
 
-        loss_l2_img = torch.mean(((origin_img - x_hat)*mask) ** 2, dim=[0, 1, 2, 3])
+        loss_l2_img = torch.mean(((origin_img - x_hat) * mask) ** 2, dim=[0, 1, 2, 3])
         loss_dict['loss_l2_origin_img'] = float(loss_l2_img)
         loss += loss_l2_img * self.img_l2_lambda_origin
 
-        if self.id_lambda >0:
+        if self.id_lambda > 0:
             loss_id, sim_improvement = self.id_loss(x_hat, res_x)
             loss_dict['loss_id'] = float(loss_id)
             loss_dict['id_improve'] = float(sim_improvement)
@@ -320,20 +317,21 @@ class Trainer:
         for key, value in metrics_dict.items():
             print('\t{} = '.format(key), value)
 
-    def parse_and_log_images(self, x, x_hat,origin_img, title, index=None):
+    def parse_and_log_images(self, x, x_hat, origin_img, title, index=None):
         if index is None:
             path = os.path.join(self.log_dir, title, f'{str(self.global_step).zfill(5)}.jpg')
         else:
             path = os.path.join(self.log_dir, title, f'{str(self.global_step).zfill(5)}_{str(index).zfill(5)}.jpg')
 
-
         os.makedirs(os.path.dirname(path), exist_ok=True)
-        torchvision.utils.save_image(torch.cat([x.detach().cpu(), x_hat.detach().cpu(),origin_img.detach().cpu()]), path,
+        torchvision.utils.save_image(torch.cat([x.detach().cpu(), x_hat.detach().cpu(), origin_img.detach().cpu()]),
+                                     path,
                                      normalize=True, scale_each=True, range=(-1, 1))
+
     def __get_save_dict(self):
         save_dict = {
             'state_dict': self.mapper.state_dict(),
-            'alpha':self.alpha
+            'alpha': self.alpha
         }
 
         return save_dict
@@ -350,15 +348,13 @@ def parse_args():
     parser = argparse.ArgumentParser(
         description='Edit image synthesis with given semantic boundary.')
 
-
-
     parser.add_argument('--mapper_name', type=str, required=True,
                         help='model name (required)')
 
     parser.add_argument('--max_steps', type=int, default=50000,
                         help='max steps.')
 
-    parser.add_argument('--learning_rate', type=float, default= 0.005,
+    parser.add_argument('--learning_rate', type=float, default=0.005,
                         help='learning rate.')
     parser.add_argument('--val_interval', type=int, default=2000,
                         help='interval of validation.')
@@ -391,7 +387,6 @@ def parse_args():
 
     parser.add_argument('--resume', type=str, default='',
                         help='resume model path.')
-
 
     return parser.parse_args()
 
