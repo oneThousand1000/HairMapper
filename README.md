@@ -97,11 +97,11 @@ For those who **can not compile the CUDA extensions successfully**, please set `
 
 # Models
 
-Please fill out this form for pretrained models access:
+Please fill out this form for pre-trained models access:
 
 https://forms.gle/a5pRbE3yxEr7sZDm7
 
-Then download and put the pretrained models to **path**:
+Then download and put the pre-trained models to **path**:
 
 | model                                                | path                                   |
 | ---------------------------------------------------- | -------------------------------------- |
@@ -112,11 +112,11 @@ Then download and put the pretrained models to **path**:
 
 # Testing
 
-Directly use our pretrained model for hair removal.
+Directly use our pre-trained model for hair removal.
 
-Real images should be extracted and aligned using DLib and a function from original FFHQ dataset preparation step, you can use the [image align code](https://github.com/Puzer/stylegan-encoder/blob/master/align_images.py) provided by [stylegan-encoder](https://github.com/Puzer/stylegan-encoder).
+Real images should be extracted and aligned using DLib and a function from the original FFHQ dataset preparation step, you can use the [image align code](https://github.com/Puzer/stylegan-encoder/blob/master/align_images.py) provided by [stylegan-encoder](https://github.com/Puzer/stylegan-encoder).
 
-Please put the real images in  **./test_data/origin**.
+Please put the real images to **./test_data/origin**.
 
 Then using encoder4editing to get the corresponding latent codes:
 
