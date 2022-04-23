@@ -18,6 +18,12 @@ Removing hair from portrait images is challenging due to the complex occlusions 
 
 **You can use, redistribute, and adapt this software for NON-COMMERCIAL purposes only**.
 
+## Demo
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)]( )
+
+We will release the colab demo soon.
+
 ## Requirements
 
 1. Windows
@@ -91,11 +97,11 @@ For those who **can not compile the CUDA extensions successfully**, please set `
 
 # Models
 
-Please fill out this form for pre-trained models access:
+Please fill out this form for pretrained models access:
 
 https://forms.gle/a5pRbE3yxEr7sZDm7
 
-Then download and put the pre-train models to :
+Then download and put the pretrained models to **path**:
 
 | model                                                | path                                   |
 | ---------------------------------------------------- | -------------------------------------- |
@@ -106,7 +112,7 @@ Then download and put the pre-train models to :
 
 # Testing
 
-Directly use our pre-train model for hair removal.
+Directly use our pretrained model for hair removal.
 
 Real images should be extracted and aligned using DLib and a function from original FFHQ dataset preparation step, you can use the [image align code](https://github.com/Puzer/stylegan-encoder/blob/master/align_images.py) provided by [stylegan-encoder](https://github.com/Puzer/stylegan-encoder).
 
@@ -158,9 +164,9 @@ Datasets will be saved to `./training_runs/dataset/D0` and `./training_runs/data
 
 ## Boundary Training (Sec 3.3)
 
-There should be enough bald-data in D0 to train a hair separation boundary, but a randomly sampled dataset consists of 10000-images may only contains 100 bald-images. So that **We recommend you to directly use our pre-trained male hair separation boundary in `./data/boundaries/stylegan2_ada/coarse/stylegan2_ffhq_hair_w_male` and gender separation boundary in `./data/boundaries/stylegan2_ada/coarse/stylegan2_ffhq_gender_styleflow`**. 
+There should be enough bald-data in D0 to train a hair separation boundary, but a randomly sampled dataset consists of 10000-images may only contains 100 bald-images. So that **we recommend you to directly use our pre-trained male hair separation boundary in `./data/boundaries/stylegan2_ada/coarse/stylegan2_ffhq_hair_w_male` and gender separation boundary in `./data/boundaries/stylegan2_ada/coarse/stylegan2_ffhq_gender_styleflow`**. 
 
-Or you can train male hair separation boundary on D_0 for yourself. (not recommended)
+Or you can train male hair separation boundary on D_0 for yourself. <u>(not recommended)</u>
 
 ```python
 python step2_train_man_hair_coarse_boundary.py  --output_dir $HairBoundaryDir$  --dataset_path ./training_runs/dataset/D0
@@ -241,6 +247,8 @@ python step6_train_bald_female_data.py  --dataset_name Dnoise --male_mapper_name
 
 ```
 
+Results will be saved to `./training_runs/female_training/D0`
+
 or use the pre-trained male mapper:
 
 ```
@@ -251,7 +259,7 @@ python step6_train_bald_female_data.py  --dataset_name D0  --mapper_ckpt_path ma
 python step6_train_bald_female_data.py  --dataset_name Dnoise  --mapper_ckpt_path mapper/checkpoints/man/best_model.pt --num 2500
 ```
 
-
+Results will be saved to `./training_runs/female_training/Dnoise`
 
 
 
