@@ -22,7 +22,9 @@ Removing hair from portrait images is challenging due to the complex occlusions 
 
 ## Demo
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)]( https://github.com/oneThousand1000/HairMapper/blob/master/notebooks/HairMapper.ipynb)
+ [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/oneThousand1000/HairMapper/blob/master/notebooks/HairMapper.ipynb)
+
+
 
 ## Requirements
 
