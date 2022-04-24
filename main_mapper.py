@@ -8,11 +8,9 @@ from mapper.networks.level_mapper import LevelMapper
 import torch
 import glob
 from diffuse.inverter_remove_hair import InverterRemoveHair
-
 import numpy as np
 from PIL import ImageFile
 import os
-
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 

@@ -8,7 +8,9 @@ Published in **[2022 IEEE/CVF Conference on Computer Vision and Pattern Recognit
 
 [Yiqian Wu](https://onethousandwu.com/), [Yongliang Yang](http://www.yongliangyang.net/), [Xiaogang Jin*](http://www.cad.zju.edu.cn/home/jin)
 
-[Paper]( )    [Video]( )    [Project Page]()
+[[Paper (4.21MB)]](http://www.cad.zju.edu.cn/home/jin/cvpr2022/HairMapper.pdf )    [[Video (46.7MB)]](http://www.cad.zju.edu.cn/home/jin/cvpr2022/demo.mp4 )    [[Suppl (4.42M)]](http://www.cad.zju.edu.cn/home/jin/cvpr2022/Supplementary_Materials.pdf)    [[Project Page]](http://www.cad.zju.edu.cn/home/jin/cvpr2022/cvpr2022.htm)
+
+[[Paper-high resolution (25.8MB)]](https://drive.google.com/file/d/18DDvis0ABiN0ibnAuZePLrN5SjhIeuRR/view?usp=sharing )  [[Suppl-high resolution (16.4M)]](https://drive.google.com/file/d/1_hXrqicomEi79Tm52CKgNamezgWlykDh/view?usp=sharing)  
 
 **Abstract:**
 
@@ -20,9 +22,7 @@ Removing hair from portrait images is challenging due to the complex occlusions 
 
 ## Demo
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)]( )
-
-We will release the colab demo soon.
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)]( https://github.com/oneThousand1000/HairMapper/blob/master/notebooks/HairMapper.ipynb)
 
 ## Requirements
 
@@ -282,7 +282,9 @@ Train final mapper:
 python train_mapper.py --mapper_name final_mapper --max_steps 26000
 ```
 
+## Contact
 
+onethousand@zju.edu.cn / [onethousand1250@gmail.com](mailto:onethousand1250@gmail.com)
 
 ## Citation
 
