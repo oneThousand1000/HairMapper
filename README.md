@@ -26,7 +26,7 @@ We will release the colab demo soon.
 
 ## Requirements
 
-1. Windows
+1. Windows (not tested on Linux yet)
 2. Python 3.7
 3. NVIDIA GPU + CUDA11.1 + CuDNN
 
