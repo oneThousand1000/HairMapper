@@ -33,7 +33,7 @@ We will release the colab demo soon.
 # Install
 
 1. ```bash
-   git clone git@github.com:oneThousand1000/HairMapper-CVPR2022.git
+   git clone git@github.com:oneThousand1000/HairMapper.git
    ```
    
 1. Download the following pretrained models, put each of them to **path**:
@@ -48,11 +48,11 @@ We will release the colab demo soon.
    | [classification_model.pth](https://drive.google.com/file/d/1SSw6vd-25OGnLAE0kuA-_VHabxlsdLXL/view?usp=sharing) | ./classifier/gender_classification |
    | [classification_model.pth](https://drive.google.com/file/d/1n14ckDcgiy7eu-e9XZhqQYb5025PjSpV/view?usp=sharing) | ./classifier/hair_classification   |
 
-​	face_parsing.pth: https://github.com/switchablenorms/CelebAMask-HQ/tree/master/face_parsing ([79999_iter.pth](https://drive.google.com/file/d/1eP90uPItdAy1czivugAM3ZK68OdY2pfe/view?usp=sharing))
+​	face_parsing.pth from: https://github.com/switchablenorms/CelebAMask-HQ/tree/master/face_parsing ([79999_iter.pth](https://drive.google.com/file/d/1eP90uPItdAy1czivugAM3ZK68OdY2pfe/view?usp=sharing))
 
-​	e4e_ffhq_encode.pt: https://github.com/omertov/encoder4editing
+​	e4e_ffhq_encode.pt from: https://github.com/omertov/encoder4editing
 
-​	model_ir_se50.pth: https://github.com/orpatashnik/StyleCLIP
+​	model_ir_se50.pth from: https://github.com/orpatashnik/StyleCLIP
 
 2. Create conda environment:
 
@@ -89,7 +89,7 @@ We will release the colab demo soon.
    pip install -r requirements.txt
    ```
 
-We modified the stylegan-ada pytorch to output latent codes in `Z, W, W+` and `StyleSpace` more conveniently. 
+We modified the stylegan-ada pytorch version to output latent codes in `Z, W, W+` and `StyleSpace` more conveniently. 
 
 Since we find that getting those CUDA extensions to run on Windows is a hassle ([stytlegan2-ada issue#97](https://github.com/NVlabs/stylegan2-ada-pytorch/issues/97)), we also modified the stylegan-ada **so that you can choose to use a slow reference implementation** of `upfirdn2d()` and `bias_act()` (slower, but can be directly used without compiling CUDA extensions). 
 
@@ -97,7 +97,7 @@ For those who **can not compile the CUDA extensions successfully**, please set `
 
 # Models
 
-Please fill out this form for pre-trained models access:
+Please fill out this google form for pre-trained models access:
 
 https://forms.gle/a5pRbE3yxEr7sZDm7
 
@@ -142,9 +142,11 @@ python main_mapper.py  --data_dir ./test_data --diffuse
 
 
 
-**Considering that our method involves several optimizations and several network trainings, we provide a step-by-step training procedure.**
+
 
 # Training
+
+**Considering that our method involves several optimizations and several network trainings, we provide a step-by-step training procedure.**
 
 ## Data Preparation (Sec 3.2)
 
@@ -294,7 +296,7 @@ We thanks the following works:
 
 [StyleCLIP](https://github.com/orpatashnik/StyleCLIP)
 
-[ encoder4editing](https://github.com/omertov/encoder4editing)
+[encoder4editing](https://github.com/omertov/encoder4editing)
 
 [InterFaceGAN](https://github.com/genforce/interfacegan)
 
