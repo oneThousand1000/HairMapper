@@ -116,9 +116,13 @@ Then download and put the pre-trained models to **path**:
 
 Directly use our pre-trained model for hair removal.
 
-Real images should be extracted and aligned using DLib and a function from the original FFHQ dataset preparation step, you can use the [image align code](https://github.com/Puzer/stylegan-encoder/blob/master/align_images.py) provided by [stylegan-encoder](https://github.com/Puzer/stylegan-encoder).
+**step1:**
+
+Real images **should be extracted and aligned using DLib and a function from the original FFHQ dataset preparation step**, you can use the [image align code](https://github.com/Puzer/stylegan-encoder/blob/master/align_images.py) provided by [stylegan-encoder](https://github.com/Puzer/stylegan-encoder).
 
 Please put the real images to **./test_data/origin** (examplar data can be found in ./data/test_data/final/origin).
+
+**step2:**
 
 Then using encoder4editing to get the corresponding latent codes:
 
@@ -128,6 +132,8 @@ python encode.py  --data_dir ../test_data
 ```
 
 latent codes will be saved to `./test_data/code`.
+
+**step3:**
 
 Then run HairMapper:
 
