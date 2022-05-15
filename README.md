@@ -56,6 +56,8 @@ Removing hair from portrait images is challenging due to the complex occlusions 
 
 ​	model_ir_se50.pth from: https://github.com/orpatashnik/StyleCLIP
 
+The StyleGAN2-ada-Generator.pth contains the same model parameters as the original [stylegan2](https://github.com/NVlabs/stylegan2) pkl model `stylegan2-ffhq-config-f.pkl`.
+
 2. Create conda environment:
 
    ```
