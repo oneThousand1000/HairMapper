@@ -108,7 +108,7 @@ def main():
                         save_path = os.path.join(output_dir, f'{pbar.n:06d}.jpg')
                         cv2.imwrite(save_path, image[:, :, ::-1])
                         hair_score = check_hair(img=image[:, :, ::-1], model=hair_checker)
-                        gender_score = check_hair(img=image[:, :, ::-1], model=gender_checker)
+                        gender_score = check_gender(img=image[:, :, ::-1], model=gender_checker)
                         gender_scores.append(gender_score)
                         hair_scores.append(hair_score)
 

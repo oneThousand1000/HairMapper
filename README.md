@@ -56,6 +56,8 @@ Removing hair from portrait images is challenging due to the complex occlusions 
 
 ​	model_ir_se50.pth from: https://github.com/orpatashnik/StyleCLIP
 
+The StyleGAN2-ada-Generator.pth contains the same model parameters as the original [stylegan2](https://github.com/NVlabs/stylegan2) pkl model `stylegan2-ffhq-config-f.pkl`.
+
 2. Create conda environment:
 
    ```
@@ -120,7 +122,7 @@ Directly use our pre-trained model for hair removal.
 
 Real images **should be extracted and aligned using DLib and a function from the original FFHQ dataset preparation step**, you can use the [image align code](https://github.com/Puzer/stylegan-encoder/blob/master/align_images.py) provided by [stylegan-encoder](https://github.com/Puzer/stylegan-encoder).
 
-Please put the real images to **./test_data/origin** (examplar data can be found in ./data/test_data/final/origin).
+Please put the aligned real images to **./test_data/origin** (examplar data can be found in ./data/test_data/final/origin).
 
 **step2:**
 
