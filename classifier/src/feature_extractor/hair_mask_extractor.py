@@ -206,7 +206,7 @@ def get_hair_mask(img_path,net=None, cp='79999_iter.pth',dilate_kernel=10,includ
 
     if dilate_kernel>0:
         hair_mask = cv2.dilate(hair_mask, kernel=np.ones((dilate_kernel, dilate_kernel), np.uint8))
-    hair_mask=cv2.resize(hair_mask,(img_shape[0],img_shape[1]))
+    hair_mask=cv2.resize(hair_mask,(img_shape[1],img_shape[0]))
 
     if blur:
         hair_mask = cv2.dilate(hair_mask, kernel=np.ones((10, 10), np.uint8))
@@ -254,7 +254,7 @@ def get_back_ground(img_path,net=None, cp='79999_iter.pth'):
         bg_mask=parsing_bg_mask(parsing, stride=1)
 
 
-    bg_mask=cv2.resize(bg_mask,(img_shape[0],img_shape[1]))
+    bg_mask=cv2.resize(bg_mask,(img_shape[1],img_shape[0]))
 
     return bg_mask
 
@@ -299,7 +299,7 @@ def get_face_mask(img_path,net=None, cp='79999_iter.pth',include_ear=False):
 
     # if erode_kernel>0:
     #     face_mask = cv2.erode(face_mask, kernel=np.ones((erode_kernel, erode_kernel), np.uint8))
-    face_mask=cv2.resize(face_mask,(img_shape[0],img_shape[1]))
+    face_mask=cv2.resize(face_mask,(img_shape[1],img_shape[0]))
 
     # if blur:
     #     face_mask = cv2.dilate(face_mask, kernel=np.ones((10, 10), np.uint8))
@@ -346,8 +346,8 @@ def get_app_mask(img_path,net=None, cp='79999_iter.pth',dilate_kernel=10,include
         face_mask,face_bg_mask,hair_mask=parsing_app_mask(parsing, stride=1,include_hat=include_hat,include_ear=include_ear)
 
 
-    hair_mask=cv2.resize(hair_mask,(img_shape[0],img_shape[1]))
-    face_bg_mask = cv2.resize(face_bg_mask, (img_shape[0], img_shape[1]))
-    face_mask = cv2.resize(face_mask, (img_shape[0], img_shape[1]))
+    hair_mask=cv2.resize(hair_mask,(img_shape[1],img_shape[0]))
+    face_bg_mask = cv2.resize(face_bg_mask, (img_shape[1], img_shape[0]))
+    face_mask = cv2.resize(face_mask, (img_shape[1], img_shape[0]))
 
     return face_mask,face_bg_mask,hair_mask
